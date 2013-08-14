@@ -41,5 +41,23 @@ exports.concat_bower = {
 
 
     test.done();
+  },
+  exclude: function(test) {
+    test.expect(3);
+
+    var all = grunt.file.read('tmp/bower.js');
+
+    var jqIndex = all.indexOf('jQuery JavaScript Library v1.10.2');
+    var fidelIndex = all.indexOf('fidel - a ui view controller');
+    var routieIndex = all.indexOf('routie - a tiny hash router');
+
+    test.equal(jqIndex, -1, 'jQuery shouldn\'t exist');
+    test.ok(fidelIndex, 'fidel should exist');
+    test.ok(routieIndex, 'routie should exist');
+
+
+    test.done();
+
   }
+
 };
