@@ -27,22 +27,19 @@ exports.concat_bower = {
     // setup here if necessary
     done();
   },
-  default_options: function(test) {
-    test.expect(1);
+  all: function(test) {
+    test.expect(2);
 
-    var actual = grunt.file.read('tmp/default_options');
-    var expected = grunt.file.read('test/expected/default_options');
-    test.equal(actual, expected, 'should describe what the default behavior is.');
+    var all = grunt.file.read('tmp/bower.all.js');
 
-    test.done();
-  },
-  custom_options: function(test) {
-    test.expect(1);
+    var jqIndex = all.indexOf('jQuery JavaScript Library v1.10.2');
+    var fidelIndex = all.indexOf('fidel - a ui view controller');
+    var routieIndex = all.indexOf('routie - a tiny hash router');
 
-    var actual = grunt.file.read('tmp/custom_options');
-    var expected = grunt.file.read('test/expected/custom_options');
-    test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+    test.ok((jqIndex < fidelIndex), 'jQuery should be before fidel');
+    test.ok(routieIndex, 'routie should exist');
+
 
     test.done();
-  },
+  }
 };
