@@ -14,52 +14,49 @@ module.exports = function(grunt) {
 
   var getPaths = function(cb) {
     bower.commands.list({ 'paths': true })
-      .on('data', function(data) {
+      .on('end', function(data) {
         cb(null, data);
-      });
-  };
-
-  var getSources = function(cb) {
-    bower.commands.list({ 'sources': true })
-      .on('data', function(data) {
-        cb(null, data);
-      });
+      })
+      .on('error', cb);
   };
 
   grunt.registerMultiTask('bower', 'A grunt plugin to concat bower dependencies', function() {
-
     var type = this.data.type || '.js';
     var exclude = this.data.exclude || [];
     var dest = this.data.dest;
 
-    var done = this.async();
-    var async = grunt.util.async;
-    var self = this;
-
-    var process = function(err, results) {
-      var paths = results[0];
-      var sources = results[1][type];
-
-      exclude.forEach(function(exclude) {
-        var index = sources.indexOf(paths[exclude]);
-        if (index == -1) {
-          grunt.log.error(exclude + ' doesn\'t exist');
-        }
-        sources.splice(index, 1);
-      });
-
-      var out = '';
-      sources.forEach(function(source) {
-        out += grunt.file.read(source);
-      });
-      grunt.file.write(dest, out);
-      grunt.log.writeln(dest + ' written');
-      done();
+    var isOfType = function(file){
+      return file.indexOf(type) !== -1;
+    },
+    isExcluded = function(library){
+      return exclude.indexOf(library) !== -1;
     };
 
-    async.parallel([getPaths, getSources], process);
+    var done = this.async();
 
+    var process = function(err, sources) {
+      if (err){
+        grunt.fail.fatal(err);
+      }
+      else {
+        var files = [];
+        for(var source in sources){
+          if (isOfType(sources[source]) && !isExcluded(source)){
+            files.push(sources[source]);
+          }
+        }
 
+        var out = '';
+        files.forEach(function(file){
+          out += grunt.file.read(file);
+        });
+
+        grunt.file.write(dest, out);
+        grunt.log.writeln(dest + ' written');
+        done();
+      }
+    };
+    getPaths(process);
   });
 
 };
