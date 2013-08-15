@@ -40,6 +40,7 @@
     "gruntplugin"
   ],
   "dependencies": {
-    "bower": "~1.1.2"
+    "bower": "~1.1.2",
+    "deptree": "~0.1.0"
   }
 }

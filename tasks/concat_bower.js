@@ -11,7 +11,15 @@
 module.exports = function(grunt) {
 
   var bower = require('bower');
+  var DepTree = require('deptree');
 
+  var getList = function(cb) {
+    bower.commands.list({ offline: true, json: true })
+      .on('end', function(data) {
+        cb(null, data);
+      })
+      .on('error', cb);
+  };
   var getPaths = function(cb) {
     bower.commands.list({ 'paths': true })
       .on('end', function(data) {
@@ -24,31 +32,31 @@ module.exports = function(grunt) {
     var type = this.data.type || '.js';
     var exclude = this.data.exclude || [];
     var dest = this.data.dest;
-
-    var isOfType = function(file){
-      return file.indexOf(type) !== -1;
-    },
-    isExcluded = function(library){
-      return exclude.indexOf(library) !== -1;
-    };
+    var async = grunt.util.async;
 
     var done = this.async();
 
-    var process = function(err, sources) {
+    var process = function(err, results) {
+      var paths = results[0];
+      var sources = results[1].dependencies;
+      var deptree = new DepTree();
+
       if (err){
         grunt.fail.fatal(err);
       }
       else {
-        var files = [];
         for(var source in sources){
-          if (isOfType(sources[source]) && !isExcluded(source)){
-            files.push(sources[source]);
-          }
+          var data = sources[source];
+          deptree.add(source, Object.keys(data.dependencies));
         }
+        var deps = deptree.resolve();
 
         var out = '';
-        files.forEach(function(file){
-          out += grunt.file.read(file);
+        deps.forEach(function(dep){
+          var file = paths[dep];
+          if (exclude.indexOf(dep) === -1) {
+            out += grunt.file.read(file);
+          }
         });
 
         grunt.file.write(dest, out);
@@ -56,7 +64,8 @@ module.exports = function(grunt) {
         done();
       }
     };
-    getPaths(process);
+    async.parallel([getPaths, getList], process);
+
   });
 
 };
