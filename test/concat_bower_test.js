@@ -28,32 +28,41 @@ exports.concat_bower = {
     done();
   },
   all: function(test) {
-    test.expect(2);
+    test.expect(4);
 
     var all = grunt.file.read('tmp/bower.all.js');
 
-    var jqIndex = all.indexOf('jQuery JavaScript Library v1.10.2');
-    var fidelIndex = all.indexOf('fidel - a ui view controller');
-    var routieIndex = all.indexOf('routie - a tiny hash router');
+    //jquery, fittext, fidel, fidel-template, weekly
 
-    test.ok((jqIndex < fidelIndex), 'jQuery should be before fidel');
-    test.ok(routieIndex, 'routie should exist');
+    var jqIndex = all.indexOf('jQuery JavaScript Library v1.10.2');
+    var fitIndex = all.indexOf('FitText.js 1.1');
+    var fidelTmpIndex = all.indexOf('fidel-template - A fidel plugin to render a clientside template');
+    var fidelIndex = all.indexOf('fidel - a ui view controller');
+    var weeklyIndex = all.indexOf('weekly - jQuery Weekly Calendar Plugin');
+
+    test.ok((jqIndex < fitIndex), 'jQuery should be before fit');
+    test.ok((fitIndex < fidelIndex), 'fit should be before fidel');
+    test.ok((fidelIndex < fidelTmpIndex), 'fidel should be before fidel template');
+    test.ok((weeklyIndex > fidelTmpIndex), 'fidel template should be before weekly');
 
 
     test.done();
   },
   exclude: function(test) {
-    test.expect(3);
+    test.expect(4);
 
     var all = grunt.file.read('tmp/bower.js');
 
     var jqIndex = all.indexOf('jQuery JavaScript Library v1.10.2');
+    var fitIndex = all.indexOf('FitText.js 1.1');
+    var fidelTmpIndex = all.indexOf('fidel-template - A fidel plugin to render a clientside template');
     var fidelIndex = all.indexOf('fidel - a ui view controller');
-    var routieIndex = all.indexOf('routie - a tiny hash router');
+    var weeklyIndex = all.indexOf('weekly - jQuery Weekly Calendar Plugin');
 
-    test.equal(jqIndex, -1, 'jQuery shouldn\'t exist');
-    test.ok(fidelIndex, 'fidel should exist');
-    test.ok(routieIndex, 'routie should exist');
+    test.equal(jqIndex, -1, 'jQuery should not exist');
+    test.ok((fitIndex < fidelIndex), 'fit should be before fidel');
+    test.ok((fidelIndex < fidelTmpIndex), 'fidel should be before fidel template');
+    test.ok((weeklyIndex > fidelTmpIndex), 'fidel template should be before weekly');
 
 
     test.done();
