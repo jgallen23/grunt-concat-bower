@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 
   var bower = require('bower');
   var DepTree = require('deptree');
+  var fs = require('fs');
 
   var getList = function(cb) {
     bower.commands.list({ offline: true, json: true })
