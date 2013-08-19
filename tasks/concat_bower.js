@@ -47,19 +47,20 @@ module.exports = function(grunt) {
     var done = this.async();
 
     var process = function(err, results) {
-      var paths = results[0];
-      var sources = results[1].dependencies;
-
-      var deptree = new DepTree();
-
       if (err){
-        grunt.fail.fatal(err);
+        grunt.fatal(err);
       }
       else {
+        var paths = results[0];
+        var sources = results[1].dependencies;
+
+        var deptree = new DepTree();
+
         getDeps(false, sources, deptree);
         var deps = deptree.resolve();
 
         var out = '';
+
         deps.forEach(function(dep){
           var file = paths[dep];
 
@@ -82,7 +83,5 @@ module.exports = function(grunt) {
       }
     };
     async.parallel([getPaths, getList], process);
-
   });
-
 };
