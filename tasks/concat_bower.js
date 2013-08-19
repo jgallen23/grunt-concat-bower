@@ -54,7 +54,14 @@ module.exports = function(grunt) {
         var out = '';
         deps.forEach(function(dep){
           var file = paths[dep];
-          if (exclude.indexOf(dep) === -1) {
+
+          if (!fs.existsSync(file) || fs.lstatSync(file).isDirectory()) {
+            grunt.log.error('Not including '+ file + ' because main is not set');
+          }
+          else if (exclude.indexOf(dep) !== -1) {
+            grunt.log.error('Skipping '+ file);
+          } else {
+            grunt.log.writeln('Including '+file);
             out += grunt.file.read(file);
           }
         });
