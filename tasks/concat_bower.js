@@ -29,6 +29,15 @@ module.exports = function(grunt) {
       .on('error', cb);
   };
 
+  var getDeps = function(name, deps, deptree) {
+    if (name) {
+      deptree.add(name, Object.keys(deps));
+    }
+    for (var depname in deps) {
+      getDeps(depname, deps[depname].dependencies, deptree);
+    }
+  };
+
   grunt.registerMultiTask('bower', 'A grunt plugin to concat bower dependencies', function() {
     var type = this.data.type || '.js';
     var exclude = this.data.exclude || [];
@@ -40,16 +49,14 @@ module.exports = function(grunt) {
     var process = function(err, results) {
       var paths = results[0];
       var sources = results[1].dependencies;
+
       var deptree = new DepTree();
 
       if (err){
         grunt.fail.fatal(err);
       }
       else {
-        for(var source in sources){
-          var data = sources[source];
-          deptree.add(source, Object.keys(data.dependencies));
-        }
+        getDeps(false, sources, deptree);
         var deps = deptree.resolve();
 
         var out = '';
@@ -60,7 +67,7 @@ module.exports = function(grunt) {
             grunt.log.error('Not including '+ file + ' because main is not set');
           }
           else if (exclude.indexOf(dep) !== -1) {
-            grunt.log.error('Skipping '+ file);
+            grunt.log.writeln('Skipping '+ file);
           } else {
             grunt.log.writeln('Including '+file);
             out += grunt.file.read(file);

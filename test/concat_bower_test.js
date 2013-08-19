@@ -28,7 +28,7 @@ exports.concat_bower = {
     done();
   },
   all: function(test) {
-    test.expect(4);
+    test.expect(5);
 
     var all = grunt.file.read('tmp/bower.all.js');
 
@@ -39,9 +39,11 @@ exports.concat_bower = {
     var fidelTmpIndex = all.indexOf('fidel-template - A fidel plugin to render a clientside template');
     var fidelIndex = all.indexOf('fidel - a ui view controller');
     var weeklyIndex = all.indexOf('weekly - jQuery Weekly Calendar Plugin');
+    var templateIndex = all.indexOf('template - A simple javascript template engine.');
 
     test.ok((jqIndex < fitIndex), 'jQuery should be before fit');
     test.ok((fitIndex < fidelIndex), 'fit should be before fidel');
+    test.ok((templateIndex < fidelTmpIndex), 'template should be before fidel template');
     test.ok((fidelIndex < fidelTmpIndex), 'fidel should be before fidel template');
     test.ok((weeklyIndex > fidelTmpIndex), 'fidel template should be before weekly');
 
