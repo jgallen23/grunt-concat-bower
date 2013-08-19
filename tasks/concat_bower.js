@@ -68,6 +68,8 @@ module.exports = function(grunt) {
           }
           else if (exclude.indexOf(dep) !== -1) {
             grunt.log.writeln('Skipping '+ file);
+          } else if (file.indexOf(type) === -1 ) {
+            grunt.log.writeln('Not including ' + file + ' because doesn\'t match file type');
           } else {
             grunt.log.writeln('Including '+file);
             out += grunt.file.read(file);
