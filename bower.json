@@ -4,6 +4,7 @@
   "dependencies": {
     "jquery": "1.10.*",
     "dice-roll": "*",
+    "oban": "*",
     "weekly": "*"
   }
 }
