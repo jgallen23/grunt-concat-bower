@@ -70,6 +70,19 @@ exports.concat_bower = {
     test.ok((weeklyIndex > fidelTmpIndex), 'fidel template should be before weekly');
 
     test.done();
+  },
+
+  changePath: function(test) {
+    test.expect(1);
+
+    var src = grunt.file.read('tmp/bower.changepaths.js');
+
+    var minIndex = src.indexOf('@ sourceMappingURL=jquery.min.map');
+
+    test.notEqual(minIndex, -1);
+
+    test.done();
+
   }
 
 };

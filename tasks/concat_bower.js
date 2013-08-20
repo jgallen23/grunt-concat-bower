@@ -41,6 +41,7 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('bower', 'A grunt plugin to concat bower dependencies', function() {
     var type = this.data.type || '.js';
     var exclude = this.data.exclude || [];
+    var overridePaths = this.data.paths || {};
     var dest = this.data.dest;
     var async = grunt.util.async;
 
@@ -62,7 +63,7 @@ module.exports = function(grunt) {
         var out = '';
 
         deps.forEach(function(dep){
-          var file = paths[dep];
+          var file = overridePaths[dep] || paths[dep];
 
           if (!fs.existsSync(file) || fs.lstatSync(file).isDirectory()) {
             grunt.log.error('Not including '+ file + ' because main is not set');

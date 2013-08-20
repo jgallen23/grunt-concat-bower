@@ -39,6 +39,12 @@ module.exports = function(grunt) {
       all: {
         type: '.js',
         dest: 'tmp/bower.all.js'
+      },
+      changePaths: {
+        paths: {
+          jquery: 'bower_components/jquery/jquery.min.js'
+        },
+        dest: 'tmp/bower.changepaths.js'
       }
     },
 
