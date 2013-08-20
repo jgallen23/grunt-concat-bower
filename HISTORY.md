@@ -1,4 +1,14 @@
 
+0.2.4 / 2013-08-19 
+==================
+
+  * Merge pull request #3 from Belelros/master
+  * Type test & refactor
+  * Merged
+  * Adding back type check
+  * Taking dependencies in account
+  * Taking dependencies in account
+
 0.2.3 / 2013-08-19 
 ==================
 
