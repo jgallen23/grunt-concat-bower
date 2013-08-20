@@ -1,4 +1,11 @@
 
+0.2.5 / 2013-08-20 
+==================
+
+  * support for multiple main files
+  * be able to override path in gruntfile
+  * added grunt-contrib-watch
+
 0.2.4 / 2013-08-19 
 ==================
 
