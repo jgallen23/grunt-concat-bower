@@ -1,7 +1,7 @@
 {
   "name": "grunt-concat-bower",
   "description": "A grunt plugin to concat bower dependencies",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "homepage": "https://github.com/jgallen23/grunt-concat-bower",
   "author": {
     "name": "Greg Allen",
