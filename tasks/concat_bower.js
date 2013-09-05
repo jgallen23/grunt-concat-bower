@@ -41,10 +41,10 @@ module.exports = function(grunt) {
   var getFile = function(main, type) {
     var files = main.split(',');
     var filter = files.filter(function(item) {
-      return (item.indexOf(type) != -1);
+      return (item.indexOf(type) !== -1);
     });
 
-    return (filter.length != 0) ? filter[0] : null;
+    return (filter.length !== 0) ? filter[0] : null;
   };
 
   grunt.registerMultiTask('bower', 'A grunt plugin to concat bower dependencies', function() {
@@ -76,13 +76,13 @@ module.exports = function(grunt) {
           file = getFile(file, type);
 
           if (!file) {
-            grunt.log.writeln('Not including ' + file + ' because doesn\'t match file type');
+            grunt.log.writeln('Not including ' + dep + ' because doesn\'t match file type');
           } else if (!fs.existsSync(file) || fs.lstatSync(file).isDirectory()) {
-            grunt.log.error('Not including '+ file + ' because main is not set');
+            grunt.log.error('Not including '+ dep + ' because main is not set');
           } else if (exclude.indexOf(dep) !== -1) {
-            grunt.log.writeln('Skipping '+ file);
+            grunt.log.writeln('Skipping '+ dep +' ('+file+')');
           } else {
-            grunt.log.writeln('Including '+file);
+            grunt.log.writeln('Including '+ dep + ' ('+file+')');
             out += grunt.file.read(file);
           }
         });
