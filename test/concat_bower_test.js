@@ -87,6 +87,20 @@ exports.concat_bower = {
 
     test.done();
 
+  },
+
+  noDevDeps: function(test) {
+    test.expect(2);
+
+    var all = grunt.file.read('tmp/bower.all.js');
+
+    var assertIndex = all.indexOf('var assert = ok;');
+    var blanketIndex = all.indexOf('/*! blanket - v');
+
+    test.equal(assertIndex, -1, 'Assert should not be included');
+    test.equal(blanketIndex, -1, 'Blanket should not be included');
+
+    test.done();
   }
 
 };

@@ -8,7 +8,8 @@
     "weekly": "*",
     "select2": "~3.4.2"
   },
-  "resolutions": {
-    "jquery": "1.10.*"
+  "devDependencies": {
+    "assert": "~0.0.1",
+    "blanket": "~1.1.5"
   }
 }

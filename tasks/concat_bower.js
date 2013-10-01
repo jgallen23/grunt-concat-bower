@@ -63,6 +63,12 @@ module.exports = function(grunt) {
       else {
         var paths = results[0];
         var sources = results[1].dependencies;
+        var devDeps = results[1].pkgMeta.devDependencies;
+
+        //remove dev deps
+        for (var key in devDeps) {
+          delete sources[key];
+        }
 
         var deptree = new DepTree();
 
