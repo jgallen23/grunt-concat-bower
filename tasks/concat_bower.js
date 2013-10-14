@@ -15,14 +15,14 @@ module.exports = function(grunt) {
   var fs = require('fs');
 
   var getList = function(cb) {
-    bower.commands.list({ offline: true, json: true })
+    bower.commands.list({ json: true }, { offline: true })
       .on('end', function(data) {
         cb(null, data);
       })
       .on('error', cb);
   };
   var getPaths = function(cb) {
-    bower.commands.list({ 'paths': true })
+    bower.commands.list({ paths: true }, { offline: true })
       .on('end', function(data) {
         cb(null, data);
       })
