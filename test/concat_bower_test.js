@@ -34,8 +34,8 @@ exports.concat_bower = {
 
     //jquery, fittext, fidel, fidel-template, weekly
 
-    var jqIndex = all.indexOf('jQuery JavaScript Library v1.10.2');
-    var fitIndex = all.indexOf('FitText.js 1.1');
+    var jqIndex = all.indexOf('jQuery JavaScript Library v1.10');
+    var fitIndex = all.indexOf('FitText.js 1.');
     var fidelTmpIndex = all.indexOf('fidel-template - A fidel plugin to render a clientside template');
     var fidelIndex = all.indexOf('fidel - a ui view controller');
     var weeklyIndex = all.indexOf('weekly - jQuery Weekly Calendar Plugin');
