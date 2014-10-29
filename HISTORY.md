@@ -1,4 +1,12 @@
 
+0.4.0 / 2014-10-29 
+==================
+
+  * added support for additionalDeps
+  * updated readme
+  * fixed tests
+  * Update README.md
+
 0.3.1 / 2013-10-14 
 ==================
 
