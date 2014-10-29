@@ -44,7 +44,7 @@ module.exports = function(grunt) {
       return (item.indexOf(type) !== -1);
     });
 
-    return (filter.length !== 0) ? filter[0] : null;
+    return (filter.length !== 0) ? filter : null;
   };
 
   grunt.registerMultiTask('bower', 'A grunt plugin to concat bower dependencies', function() {
@@ -87,15 +87,22 @@ module.exports = function(grunt) {
           var file = overridePaths[dep] || paths[dep];
           file = getFile(file, type);
 
-          if (!file) {
+          if (typeof file === 'string') {
+            file = [file];
+          }
+          if (!file || file.length === 0) {
             grunt.log.writeln('Not including ' + dep + ' because doesn\'t match file type');
-          } else if (!fs.existsSync(file) || fs.lstatSync(file).isDirectory()) {
-            grunt.log.error('Not including '+ dep + ' because main is not set');
-          } else if (exclude.indexOf(dep) !== -1) {
-            grunt.log.writeln('Skipping '+ dep +' ('+file+')');
           } else {
-            grunt.log.writeln('Including '+ dep + ' ('+file+')');
-            out += grunt.file.read(file);
+            file.forEach(function(f) {
+              if (!fs.existsSync(f) || fs.lstatSync(f).isDirectory()) {
+                grunt.log.error('Not including '+ dep + ' because main is not set');
+              } else if (exclude.indexOf(dep) !== -1) {
+                grunt.log.writeln('Skipping '+ dep +' ('+f+')');
+              } else {
+                grunt.log.writeln('Including '+ dep + ' ('+f+')');
+                out += grunt.file.read(f);
+              }
+            });
           }
         });
 
