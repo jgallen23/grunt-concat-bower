@@ -51,6 +51,7 @@ module.exports = function(grunt) {
     var type = this.data.type || '.js';
     var exclude = this.data.exclude || [];
     var overridePaths = this.data.paths || {};
+    var additionalDeps = this.data.additionalDeps || {};
     var dest = this.data.dest;
     var async = grunt.util.async;
 
@@ -73,6 +74,11 @@ module.exports = function(grunt) {
         var deptree = new DepTree();
 
         getDeps(false, sources, deptree);
+        if (additionalDeps) {
+          for (var key in additionalDeps) {
+            deptree.add(key, additionalDeps[key]);
+          }
+        }
         var deps = deptree.resolve();
 
         var out = '';

@@ -45,6 +45,12 @@ module.exports = function(grunt) {
           jquery: 'bower_components/jquery/jquery.min.js'
         },
         dest: 'tmp/bower.changepaths.js'
+      },
+      addDep: {
+        dest: 'tmp/bower.adddep.js',
+        additionalDeps: {
+          "dice-roll": ["FitText.js", "select2"]
+        }
       }
     },
 

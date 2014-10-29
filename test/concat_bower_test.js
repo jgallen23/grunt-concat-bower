@@ -101,6 +101,25 @@ exports.concat_bower = {
     test.equal(blanketIndex, -1, 'Blanket should not be included');
 
     test.done();
+  },
+
+  addDeps: function(test) {
+    test.expect(3);
+
+    var all = grunt.file.read('tmp/bower.adddep.js');
+
+    //jquery, fittext, fidel, fidel-template, weekly
+
+    var jqIndex = all.indexOf('jQuery JavaScript Library v1.10');
+    var fitIndex = all.indexOf('FitText.js 1.');
+    var select2Index = all.indexOf('Igor Vaynberg');
+    var diceRollIndex = all.indexOf('dice-roll - ');
+
+    test.ok((jqIndex < fitIndex), 'jQuery should be before fit');
+    test.ok((fitIndex < select2Index), 'fit should be before select2');
+    test.ok((select2Index < diceRollIndex), 'select2 should be before dice roll');
+
+    test.done();
   }
 
 };
